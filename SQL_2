@@ -1,0 +1,20 @@
+--Exercicios 
+
+SELECT COUNT(idAgencia), Cidade
+FROM Agencias
+GROUP BY Cidade
+
+SELECT AVG (Renda)
+FROM Clientes
+WHERE Cidade = 'São Paulo'
+
+SELECT AVG(Renda)
+FROM Clientes
+GROUP BY Cidade
+
+SELECT AVG (Limite)
+FROM Contas
+WHERE talaoCheque = 1
+
+SELECT MIN (Anuidade), MAX (Anuidade)
+FROM tipoCartao
