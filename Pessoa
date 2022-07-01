@@ -91,3 +91,195 @@ public class PessoaCadastro {
 		frame.getContentPane().add(btnCadastrar);
 	}
 }
+//segunda classe
+
+package br.senac.dao;
+
+import br.senac.model.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+public class PessoaDao {
+
+	public void create (Pessoa pessoa) throws SQLException {
+		Connection connection = ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			String query = "INSERT INTO Pessoa (nome,anoNascimento)VALEU (?,?)";
+		    preparedStatement = connection.prepareStatement(query);
+		    preparedStatement.setString(1, pessoa.getNome());
+		    preparedStatement.setInt(2, pessoa.getAnoNascimento());
+		    
+		    preparedStatement.executeUpdate();
+		}
+	    catch(SQLException ex) {
+	    	throw new SQLException(ex);
+	    	
+	    }
+	}
+
+}
+
+//terceira classe
+
+package br.senac.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager; 
+import java.sql.SQLException;
+
+public class ConnectionFactory {
+
+	private static final String  DRIVER = "com.mysol.jdbc.Driver";
+	private static final String URL = "jdbc:mysql://localhost:3306/bank";
+	private static final String USER = "senac";
+	private static final String PASS = "1a2b3c ";
+	public static Connection getConnection() {
+		try {
+			Class.forName(DRIVER);
+			return DriverManager.getConnection(URL,USER,PASS);
+		}
+		catch (ClassNotFoundException | SQLException ex){
+				throw new RuntimeException(ex);
+		}	
+		
+	}
+	
+	public static void closeConnection(Connection connection) {
+		try {
+			if (connection != null) {
+				connection.close();
+				
+			}
+		}
+	   catch (SQLException ex) {
+		   throw new RuntimeException(ex);
+		   
+	   }
+	}
+	
+		
+	}
+	
+
+//quarta classe
+
+package br.senac.model;
+
+public class Pessoa {
+	private int id;
+	private String nome;
+	private int anoNascimento;
+	
+
+	
+	public Pessoa() {
+		
+	}
+	
+	public Pessoa(int id, String nome, int anoNascimento) {
+		this.id =id;
+		this.nome = nome;
+		this.anoNascimento = anoNascimento; 
+		
+	}
+	
+	private int getId() {
+		return id;
+	}
+	private void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public int getAnoNascimento() {
+		return anoNascimento;
+	}
+	public void setAnoNascimento(int anoNascimento) {
+		this.anoNascimento = anoNascimento;
+	}
+	
+	
+
+}
+
+
+//quinta classe
+
+package br.edu.senacsp.presentation;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class TelaTeste {
+
+	private JFrame frame;
+	private JTextField textTemperatura;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TelaTeste window = new TelaTeste();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public TelaTeste() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel txtTemperatura = new JLabel("Temperatura");
+		txtTemperatura.setBounds(10, 11, 72, 17);
+		frame.getContentPane().add(txtTemperatura);
+		
+		textTemperatura = new JTextField();
+		textTemperatura.setBounds(81, 8, 86, 20);
+		frame.getContentPane().add(textTemperatura);
+		textTemperatura.setColumns(10);
+		
+		JButton btnConverte = new JButton("Converter");
+		btnConverte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome = textTemperatura.getText();
+				
+				JOptionPane.showMessageDialog(null, nome, "Primeira Tela", JOptionPane.ERROR_MESSAGE);
+				
+			}
+		});
+		btnConverte.setBounds(177, 8, 89, 23);
+		frame.getContentPane().add(btnConverte);
+	}
+}
